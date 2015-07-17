@@ -61,7 +61,7 @@
 					<string>%pkg_path%/Contents/00Fusion_Deployment_Items/Deploy.ini</string>
 					<key>sed_commands</key>
 					<array>
-						<string>s/# key = XXXXX-XXXXX-XXXXX-XXXXX-XXXXX/key = VOLUME_LICENSE_KEY/</string>
+						<string>s/# key = XXXXX-XXXXX-XXXXX-XXXXX-XXXXX/key = %VOLUME_LICENSE_KEY%/</string>
 					</array>
 				</dict>
 			</dict>
