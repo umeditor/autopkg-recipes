@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>Description</key>
+		<string>Create a deployable VMware Fusion disk image.</string>
+		<key>Identifier</key>
+		<string>com.github.umeditor.pkg.VMwareFusion</string>
+		<key>Input</key>
+		<dict>
+			<key>NAME</key>
+			<string>VMWareFusion</string>
+			<key>VENDOR_DMG</key>
+			<string>PATH</string>
+			<key>VOLUME_LICENSE_KEY</key>
+			<string>SET-LICENSE-KEY-HERE</string>
+		</dict>
+		<key>MinimumVersion</key>
+		<string>0.2.0</string>
+		<key>Process</key>
+		<array>
+			<dict>
+				<key>Processor</key>
+				<string>Versioner</string>
+				<key>Arguments</key>
+				<dict>
+					<key>input_plist_path</key>
+					<string>/%VENDOR_DMG%/VMware Fusion.app/Contents/Info.plist</string>
+				</dict>
+			</dict>
+			<dict>
+				<key>Processor</key>
+				<string>PkgCopier</string>
+				<key>Arguments</key>
+				<dict>
+					<key>source_pkg</key>
+					<string>%VENDOR_DMG%/VMware Fusion.app/Contents/Library/Deploy VMware Fusion.mpkg</string>
+					<key>pkg_path</key>
+					<string>%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg</string>
+				</dict>
+			</dict>
+			<dict>
+			    <key>Processor</key>
+			    <string>Copier</string>
+			    <key>Arguments</key>
+			    <dict>
+			        <key>source_path</key>
+			        <string>%VENDOR_DMG%/VMware Fusion.app</string>
+			        <key>destination_path</key>
+			        <string>%pkg_path%/Contents/00Fusion_Deployment_Items/VMware Fusion.app</string>
+			        <key>overwrite</key>
+			        <string>true</string>
+			    </dict>
+			</dict>
+			<dict>
+				<key>Processor</key>
+				<string>Sed</string>
+				<key>Arguments</key>
+				<dict>
+					<key>target_file</key>
+					<string>%pkg_path%/Contents/00Fusion_Deployment_Items/Deploy.ini</string>
+					<key>sed_commands</key>
+					<array>
+						<string>s/# key = XXXXX-XXXXX-XXXXX-XXXXX-XXXXX/key = VOLUME_LICENSE_KEY/</string>
+					</array>
+				</dict>
+			</dict>
+		</array>
+	</dict>
+</plist>
